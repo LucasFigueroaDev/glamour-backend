@@ -104,6 +104,16 @@ class ProductsController {
             next(error);
         }
     };
+    searchProducts = async (req, res, next) => {
+        try {
+            const queryTerm = req.query.q;
+            if(!queryTerm || queryTerm.length === '') return createResponse(res, 200, { status: "Success", payload: [] });
+            const products = await this.service.searchProducts(queryTerm);
+            createResponse(res, 200, { status: "Exito al buscar los productos", payload: products });
+        } catch (error) {
+            next(error);
+        }
+    }
     insertManyProducts = async (req, res, next) => {
         try {
             const products = await this.service.insertManyProducts(req.body);

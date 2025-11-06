@@ -21,6 +21,10 @@ class ProductRepository {
         return await this.dao.getProductsByCategory(categoryId);
     };
 
+    searchProducts = async (query) => {
+        return await this.dao.searchProducts(query);
+    };
+
     createProduct = async (product) => {
         return await this.dao.create(product);
     };

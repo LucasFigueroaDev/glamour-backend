@@ -5,6 +5,7 @@ const router = Router();
 
 router.get('/all', productsController.getAllProducts);
 router.get('/new-arrivals', productsController.getNewArrivals);
+router.get('/search', productsController.searchProducts);
 router.get('/:id', productsController.getProductById);
 router.get('/category/:category', productsController.getProductsByCategory);
 router.post('/create', uploader.single('file'), productsController.createProduct);

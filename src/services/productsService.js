@@ -90,6 +90,22 @@ export class ProductsService {
             throw error;
         }
     };
+    searchProducts = async (query) => {
+        try {
+            const regex = new RegExp(query, 'i');
+            const search = {
+                $or: [
+                    { title: { $regex: regex } },
+                    { description: { $regex: regex } },
+                ]
+            };
+            const response = await this.repository.searchProducts(search);
+            if (!response) throw new CustomError(404, "Error al buscar los productos");
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
     insertManyProducts = async (products) => {
         try {
             if (!Array.isArray(products)) throw new CustomError(400, "Los productos deben ser un array");
