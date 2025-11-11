@@ -14,7 +14,7 @@ const environment = process.env.NODE_ENV || 'development';
 log(`Ejecutando en modo: ${environment}`);
 let allowedOrigins;
 if (environment === 'development') {
-    allowedOrigins = 'http://localhost:5173';
+    allowedOrigins = ['http://localhost:5173', 'http://localhost:4173'];
 } else {
     allowedOrigins = 'https://glamour-proyecto-backend.vercel.app';
 }
@@ -28,13 +28,15 @@ if (environment === 'development') {
 }
 const corsOptions = {
     origin: (origin, callback) => {
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
-            return callback(new Error(`La política CORS no permite el acceso desde el origen: ${origin}`), false);
+        if (!origin) return callback(null, true); // para requests sin origin (por ejemplo, desde Postman)
+        if (!allowedOrigins.includes(origin)) {
+            return callback(new Error(`CORS bloqueado: ${origin} no está permitido`), false);
         }
         return callback(null, true);
-    }
-}
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+};
 app.use(cors(corsOptions));
 
 // Body Parsers y Cookies
