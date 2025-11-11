@@ -16,7 +16,10 @@ let allowedOrigins;
 if (environment === 'development') {
     allowedOrigins = ['http://localhost:5173', 'http://localhost:4173'];
 } else {
-    allowedOrigins = 'https://glamour-frontend.vercel.app/';
+    allowedOrigins = [
+        'https://glamour-frontend.vercel.app',
+        'https://glamour-frontend-rfaqnc4mq-lucas-figueroas-projects.vercel.app'
+    ];
 }
 if (environment === 'development') {
     // Configuración de CORS para el entorno de desarrollo
