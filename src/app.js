@@ -18,7 +18,7 @@ if (environment === 'development') {
 } else {
     allowedOrigins = [
         'https://glamour-frontend.vercel.app',
-        'https://glamour-frontend-rfaqnc4mq-lucas-figueroas-projects.vercel.app'
+        'https://glamour-frontend-a2w1j9lfz-lucas-figueroas-projects.vercel.app'
     ];
 }
 if (environment === 'development') {
