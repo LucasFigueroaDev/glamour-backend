@@ -96,4 +96,5 @@ Si tienes alguna pregunta o sugerencia, no dudes en contactarme:
 - **Email**: lucasafigueroa93@gmail.com
 - **GitHub**: https://github.com/LucasFigueroaDev
 - **Portafolio**: https://portafolio-five-xi-26.vercel.app/
+- **Linkedin**: https://linkedin.com/in/lucas-a-figueroa
 ```
