@@ -17,32 +17,47 @@ const environment = process.env.NODE_ENV || "development";
 log(`Ejecutando en modo: ${environment}`);
 let allowedOrigins;
 if (environment === "development") {
-    allowedOrigins = ["http://localhost:5173", "http://localhost:4173"];
+  allowedOrigins = ["http://localhost:5173", "http://localhost:4173"];
+  // OpenAPI docs.
+  app.use(
+    "/api/docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec, { explorer: true }),
+  );
 } else {
-    allowedOrigins = [
-        "https://glamour-frontend.vercel.app",
-        "https://glamour-frontend-a2w1j9lfz-lucas-figueroas-projects.vercel.app"
-    ];
+  allowedOrigins = [
+    "https://glamour-frontend.vercel.app",
+    "https://glamour-frontend-a2w1j9lfz-lucas-figueroas-projects.vercel.app",
+  ];
 }
 if (environment === "development") {
-    // CORS config for development.
-    app.use(cors({
-        origin: "http://localhost:5173",
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        credentials: true
-    }));
+  // CORS config for development.
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      credentials: true,
+    }),
+  );
 }
 const corsOptions = {
-    origin: (origin, callback) => {
-        if (!origin) return callback(null, true); // requests without origin, e.g. Postman
-        if (allowedOrigins.includes(origin) || /^https:\/\/glamour-frontend-[a-z0-9-]+\.lucas-figueroas-projects\.vercel\.app$/.test(origin)
-        ) {
-            return callback(new Error(`CORS bloqueado: ${origin} no esta permitido`), false);
-        }
-        return callback(null, true);
-    },
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // requests without origin, e.g. Postman
+    if (
+      allowedOrigins.includes(origin) ||
+      /^https:\/\/glamour-frontend-[a-z0-9-]+\.lucas-figueroas-projects\.vercel\.app$/.test(
+        origin,
+      )
+    ) {
+      return callback(
+        new Error(`CORS bloqueado: ${origin} no esta permitido`),
+        false,
+      );
+    }
+    return callback(null, true);
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
@@ -53,9 +68,6 @@ app.use(cookieParser());
 
 // Static files.
 app.use(express.static(path.join(__dirname, "..", "public")));
-
-// OpenAPI docs.
-app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
 
 // Main API router.
 app.use("/api", apiRouter);
